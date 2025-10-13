@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,18 +9,20 @@ import {
   Animated,
   ScrollView,
   TouchableOpacity,
-} from 'react-native';
-import { COLORS } from '../utils/constants';
-import Avatar from '../components/Avatar';
-import InputPersonalizado from '../componentes/InputPersonalizado';
-import BotaoPersonalizado from '../componentes/BotaoPersonalizado';
+} from "react-native";
+import { COLORS } from "../utils/constants";
+import Avatar from "../components/Avatar";
+import InputPersonalizado from "../componentes/InputPersonalizado";
+import BotaoPersonalizado from "../componentes/BotaoPersonalizado";
 
 const TelaCadastro = ({ navigation }) => {
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [confirmarSenha, setConfirmarSenha] = useState('');
-  const scaleAnim = new Animated.Value(0);
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+
+  // 1. Mova a animação para dentro do useEffect para garantir que ela seja criada apenas uma vez.
+  const scaleAnim = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
     Animated.spring(scaleAnim, {
@@ -29,12 +31,11 @@ const TelaCadastro = ({ navigation }) => {
       friction: 7,
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [scaleAnim]);
 
   const handleCadastro = () => {
     if (podeCadastrar) {
-      // Aqui você pode adicionar validação e salvar os dados
-      navigation.navigate('EscolherAvatar');
+      navigation.navigate("EscolherAvatar");
     }
   };
 
@@ -48,17 +49,24 @@ const TelaCadastro = ({ navigation }) => {
     senha.length >= 6 &&
     senha === confirmarSenha;
 
-  const senhasNaoCoincidem = senha.length > 0 && confirmarSenha.length > 0 && senha !== confirmarSenha;
+  const senhasNaoCoincidem =
+    senha.length > 0 && confirmarSenha.length > 0 && senha !== confirmarSenha;
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* 2. Ajuste crucial no KeyboardAvoidingView */}
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        // Apenas 'padding' para iOS. No Android, ele não fará nada,
+        // deixando o ScrollView gerenciar o layout.
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.keyboardView}
+        // Adicione um offset se o padding do iOS não for suficiente
+        // keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
       >
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled" // Boa prática para usabilidade
         >
           <Animated.View
             style={[
@@ -68,14 +76,12 @@ const TelaCadastro = ({ navigation }) => {
               },
             ]}
           >
-            {/* Logo/Avatar */}
             <View style={styles.logoContainer}>
               <Avatar animated={true} />
               <Text style={styles.titulo}>Criar Conta</Text>
               <Text style={styles.subtitulo}>Vamos começar sua jornada!</Text>
             </View>
 
-            {/* Formulário */}
             <View style={styles.formContainer}>
               <InputPersonalizado
                 rotulo="Nome da Criança"
@@ -118,7 +124,9 @@ const TelaCadastro = ({ navigation }) => {
 
               {senhasNaoCoincidem && (
                 <View style={styles.avisoContainer}>
-                  <Text style={styles.avisoTexto}>⚠️ As senhas não coincidem</Text>
+                  <Text style={styles.avisoTexto}>
+                    ⚠️ As senhas não coincidem
+                  </Text>
                 </View>
               )}
 
@@ -130,7 +138,6 @@ const TelaCadastro = ({ navigation }) => {
                 desabilitado={!podeCadastrar}
               />
 
-              {/* Link para Login */}
               <View style={styles.loginContainer}>
                 <Text style={styles.loginTexto}>Já tem uma conta?</Text>
                 <TouchableOpacity onPress={voltarParaLogin}>
@@ -156,19 +163,19 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     padding: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   content: {
-    width: '100%',
+    width: "100%",
   },
   logoContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 30,
     marginTop: 20,
   },
   titulo: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.primary,
     marginTop: 20,
     marginBottom: 5,
@@ -177,32 +184,39 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.textLight,
   },
+  // 3. Estilo de sombra separado para cada plataforma
   formContainer: {
     backgroundColor: COLORS.white,
     borderRadius: 30,
     padding: 30,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 10,
-    elevation: 8,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
   },
   avisoContainer: {
-    backgroundColor: '#FFE5E5',
+    backgroundColor: "#FFE5E5",
     borderRadius: 10,
     padding: 12,
     marginBottom: 15,
   },
   avisoTexto: {
-    color: '#D32F2F',
+    color: "#D32F2F",
     fontSize: 14,
-    textAlign: 'center',
-    fontWeight: '600',
+    textAlign: "center",
+    fontWeight: "600",
   },
   loginContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 20,
     gap: 5,
   },
@@ -213,10 +227,9 @@ const styles = StyleSheet.create({
   loginLink: {
     fontSize: 16,
     color: COLORS.primary,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginLeft: 5,
   },
 });
 
 export default TelaCadastro;
-
