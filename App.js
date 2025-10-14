@@ -3,13 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-gesture-handler";
 
-// Telas novas
 import TelaLogin from "./src/telas/TelaLogin";
 import TelaCadastro from "./src/telas/TelaCadastro";
 import TelaEscolherAvatar from "./src/telas/TelaEscolherAvatar";
 import TelaEscolherTarefas from "./src/telas/TelaEscolherTarefas";
 
-// Telas existentes
 import MapScreen from "./src/screens/MapScreen";
 import ActivityScreen from "./src/screens/ActivityScreen";
 import FeedbackScreen from "./src/screens/FeedbackScreen";

@@ -45,12 +45,10 @@ const TelaLogin = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* 1. AJUSTE PRINCIPAL: Desligar o behavior 'height' no Android */}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.keyboardView}
       >
-        {/* O comentário de sintaxe inválida foi removido daqui */}
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.textLight,
   },
-  // 2. AJUSTE SECUNDÁRIO: Estilos de sombra específicos para cada plataforma
+  // Estilos de sombra específicos para cada plataforma
   formContainer: {
     backgroundColor: COLORS.white,
     borderRadius: 30,

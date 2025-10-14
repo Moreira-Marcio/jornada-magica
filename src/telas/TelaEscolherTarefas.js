@@ -102,7 +102,6 @@ const TelaEscolherTarefas = ({ navigation }) => {
           ))}
         </ScrollView>
 
-        {/* Rodapé com Botões */}
         <View style={styles.footer}>
           <View style={styles.botoesRapidos}>
             <BotaoPersonalizado

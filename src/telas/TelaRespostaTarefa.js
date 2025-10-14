@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -6,13 +6,13 @@ import {
   SafeAreaView,
   Animated,
   TouchableOpacity,
-} from 'react-native';
-import { COLORS } from '../utils/constants';
-import Avatar from '../components/Avatar';
+} from "react-native";
+import { COLORS } from "../utils/constants";
+import Avatar from "../components/Avatar";
 
 const TelaRespostaTarefa = ({ route, navigation }) => {
   const { tarefa, conseguiu, pontos, onContinuar } = route.params;
-  
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const confettiAnims = useRef(
@@ -103,12 +103,12 @@ const TelaRespostaTarefa = ({ route, navigation }) => {
                   styles.confetti,
                   {
                     backgroundColor: [
-                      '#FFD166',
-                      '#7EC699',
-                      '#6B9BD1',
-                      '#A8D5BA',
-                      '#F9C5D5',
-                      '#FFB347',
+                      "#FFD166",
+                      "#7EC699",
+                      "#6B9BD1",
+                      "#A8D5BA",
+                      "#F9C5D5",
+                      "#FFB347",
                     ][index % 6],
                     transform: [
                       { translateX: anim.translateX },
@@ -116,7 +116,7 @@ const TelaRespostaTarefa = ({ route, navigation }) => {
                       {
                         rotate: anim.rotate.interpolate({
                           inputRange: [0, 360],
-                          outputRange: ['0deg', '360deg'],
+                          outputRange: ["0deg", "360deg"],
                         }),
                       },
                     ],
@@ -129,19 +129,16 @@ const TelaRespostaTarefa = ({ route, navigation }) => {
         )}
 
         <View style={styles.card}>
-          {/* Avatar */}
           <View style={styles.avatarContainer}>
             <Avatar animated={true} />
           </View>
 
-          {/* Ícone da Tarefa */}
           <Text style={styles.tarefaIcon}>{tarefa.icon}</Text>
 
-          {/* Mensagem */}
           <View style={styles.messageContainer}>
-            <Text style={styles.emoji}>{conseguiu ? '🎉' : '💙'}</Text>
+            <Text style={styles.emoji}>{conseguiu ? "🎉" : "💙"}</Text>
             <Text style={styles.titulo}>
-              {conseguiu ? 'Conseguimos!' : 'Tudo bem!'}
+              {conseguiu ? "Conseguimos!" : "Tudo bem!"}
             </Text>
             <Text style={styles.mensagem}>
               {conseguiu
@@ -150,7 +147,6 @@ const TelaRespostaTarefa = ({ route, navigation }) => {
             </Text>
           </View>
 
-          {/* Pontos Ganhos */}
           {conseguiu && (
             <View style={styles.pontosContainer}>
               <Text style={styles.pontosLabel}>Você ganhou</Text>
@@ -166,7 +162,9 @@ const TelaRespostaTarefa = ({ route, navigation }) => {
           <TouchableOpacity
             style={[
               styles.botao,
-              { backgroundColor: conseguiu ? COLORS.primary : COLORS.textLight },
+              {
+                backgroundColor: conseguiu ? COLORS.primary : COLORS.textLight,
+              },
             ]}
             onPress={handleContinuar}
             activeOpacity={0.8}
@@ -185,19 +183,19 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   confettiContainer: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   confetti: {
-    position: 'absolute',
+    position: "absolute",
     width: 14,
     height: 14,
     borderRadius: 3,
@@ -206,10 +204,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 30,
     padding: 40,
-    alignItems: 'center',
-    width: '100%',
+    alignItems: "center",
+    width: "100%",
     maxWidth: 400,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 10,
@@ -223,7 +221,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   messageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 30,
   },
   emoji: {
@@ -232,37 +230,37 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.text,
     marginBottom: 15,
   },
   mensagem: {
     fontSize: 18,
     color: COLORS.textLight,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 26,
   },
   pontosContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: COLORS.background,
     borderRadius: 20,
     padding: 20,
     marginBottom: 30,
-    width: '100%',
+    width: "100%",
   },
   pontosLabel: {
     fontSize: 16,
     color: COLORS.textLight,
   },
   pontosBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: COLORS.white,
     borderRadius: 25,
     paddingHorizontal: 25,
     paddingVertical: 10,
     marginVertical: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -274,14 +272,14 @@ const styles = StyleSheet.create({
   },
   pontosValor: {
     fontSize: 36,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.primary,
   },
   botao: {
     paddingVertical: 18,
     paddingHorizontal: 40,
     borderRadius: 25,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -290,9 +288,8 @@ const styles = StyleSheet.create({
   botaoTexto: {
     color: COLORS.white,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
 export default TelaRespostaTarefa;
-
