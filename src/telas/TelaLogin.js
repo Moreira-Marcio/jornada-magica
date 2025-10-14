@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
   Text,
-  SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   Animated,
   TouchableOpacity,
-} from 'react-native';
-import { COLORS } from '../utils/constants';
-import Avatar from '../components/Avatar';
-import InputPersonalizado from '../componentes/InputPersonalizado';
-import BotaoPersonalizado from '../componentes/BotaoPersonalizado';
+} from "react-native";
+import { COLORS } from "../utils/constants";
+import Avatar from "../components/Avatar";
+import InputPersonalizado from "../componentes/InputPersonalizado";
+import BotaoPersonalizado from "../componentes/BotaoPersonalizado";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const TelaLogin = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const scaleAnim = new Animated.Value(0);
 
   React.useEffect(() => {
@@ -31,12 +31,12 @@ const TelaLogin = ({ navigation }) => {
   const handleLogin = () => {
     if (email && senha) {
       // Navega para escolher avatar
-      navigation.navigate('EscolherAvatar');
+      navigation.navigate("EscolherAvatar");
     }
   };
 
   const irParaCadastro = () => {
-    navigation.navigate('Cadastro');
+    navigation.navigate("Cadastro");
   };
 
   const podeEntrar = email.length > 0 && senha.length > 0;
@@ -44,7 +44,7 @@ const TelaLogin = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardView}
       >
         <Animated.View
@@ -55,14 +55,12 @@ const TelaLogin = ({ navigation }) => {
             },
           ]}
         >
-          {/* Logo/Avatar */}
           <View style={styles.logoContainer}>
             <Avatar animated={true} />
             <Text style={styles.titulo}>Jornada Mágica</Text>
             <Text style={styles.subtitulo}>Bem-vindo de volta!</Text>
           </View>
 
-          {/* Formulário */}
           <View style={styles.formContainer}>
             <InputPersonalizado
               rotulo="Email"
@@ -117,15 +115,15 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   logoContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 40,
   },
   titulo: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.primary,
     marginTop: 20,
     marginBottom: 5,
@@ -138,16 +136,16 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 30,
     padding: 30,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
     shadowRadius: 10,
     elevation: 8,
   },
   cadastroContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 20,
     gap: 5,
   },
@@ -158,10 +156,9 @@ const styles = StyleSheet.create({
   cadastroLink: {
     fontSize: 16,
     color: COLORS.primary,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginLeft: 5,
   },
 });
 
 export default TelaLogin;
-

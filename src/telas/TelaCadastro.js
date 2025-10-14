@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
   Text,
-  SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   Animated,
@@ -14,6 +13,7 @@ import { COLORS } from "../utils/constants";
 import Avatar from "../components/Avatar";
 import InputPersonalizado from "../componentes/InputPersonalizado";
 import BotaoPersonalizado from "../componentes/BotaoPersonalizado";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const TelaCadastro = ({ navigation }) => {
   const [nome, setNome] = useState("");
@@ -33,7 +33,7 @@ const TelaCadastro = ({ navigation }) => {
 
   const handleCadastro = () => {
     if (podeCadastrar) {
-      // Aqui você pode adicionar validação e salvar os dados
+      //adicionar validação e salvar os dados
       navigation.navigate("EscolherAvatar");
     }
   };
@@ -69,14 +69,12 @@ const TelaCadastro = ({ navigation }) => {
               },
             ]}
           >
-            {/* Logo/Avatar */}
             <View style={styles.logoContainer}>
               <Avatar animated={true} />
               <Text style={styles.titulo}>Criar Conta</Text>
               <Text style={styles.subtitulo}>Vamos começar sua jornada!</Text>
             </View>
 
-            {/* Formulário */}
             <View style={styles.formContainer}>
               <InputPersonalizado
                 rotulo="Nome da Criança"
@@ -133,7 +131,6 @@ const TelaCadastro = ({ navigation }) => {
                 desabilitado={!podeCadastrar}
               />
 
-              {/* Link para Login */}
               <View style={styles.loginContainer}>
                 <Text style={styles.loginTexto}>Já tem uma conta?</Text>
                 <TouchableOpacity onPress={voltarParaLogin}>
