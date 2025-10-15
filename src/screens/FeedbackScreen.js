@@ -1,14 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
-  SafeAreaView,
   Animated,
-} from 'react-native';
-import { COLORS } from '../utils/constants';
-import Avatar from '../componentes/Avatar';
+} from "react-native";
+import { COLORS } from "../utils/constants";
+import Avatar from "../componentes/Avatar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ACTIVITIES } from '../utils/constants';
 
 const FeedbackScreen = ({ route, navigation }) => {
   const { success, activityTitle } = route.params;
@@ -71,8 +73,46 @@ const FeedbackScreen = ({ route, navigation }) => {
     }
   }, []);
 
-  const handleContinue = () => {
-    navigation.navigate('Map');
+  const handleContinue = async () => {
+    try {
+      // carrega o progresso atual
+      const saved = await AsyncStorage.getItem('completedActivities');
+      const completed = saved ? JSON.parse(saved) : [];
+
+      // inclui esta atividade se ainda nao estiver (no caso de skip/complete já terem atualizado, pode ser redundante)
+      const activityId = route.params?.activityId;
+      const completedSet = new Set(completed);
+      if (activityId && !completedSet.has(activityId)) {
+        completedSet.add(activityId);
+      }
+
+      const completedArray = Array.from(completedSet).sort((a,b)=>a-b);
+
+      // se completou todas as atividades, vai para a tela de pontuação final
+      if (completedArray.length >= ACTIVITIES.length) {
+        const pontosTotais = completedArray.length * 10;
+        // reseta a pilha para evitar voltar para as telas anteriores
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'PontuacaoFinal',
+              params: {
+                pontosTotais,
+                tarefasCompletadas: completedArray.length,
+                totalTarefas: ACTIVITIES.length,
+              },
+            },
+          ],
+        });
+      } else {
+        // caso contrário retorna para o mapa
+        navigation.navigate('Map');
+      }
+    } catch (error) {
+      console.error('Erro avaliando progresso:', error);
+      navigation.navigate('Map');
+    }
   };
 
   return (
@@ -100,16 +140,19 @@ const FeedbackScreen = ({ route, navigation }) => {
                 style={[
                   styles.confetti,
                   {
-                    backgroundColor: ['#FFD166', '#7EC699', '#6B9BD1', '#A8D5BA'][
-                      index % 4
-                    ],
+                    backgroundColor: [
+                      "#FFD166",
+                      "#7EC699",
+                      "#6B9BD1",
+                      "#A8D5BA",
+                    ][index % 4],
                     transform: [
                       { translateX: anim.translateX },
                       { translateY: anim.translateY },
                       {
                         rotate: anim.rotate.interpolate({
                           inputRange: [0, 360],
-                          outputRange: ['0deg', '360deg'],
+                          outputRange: ["0deg", "360deg"],
                         }),
                       },
                     ],
@@ -125,14 +168,14 @@ const FeedbackScreen = ({ route, navigation }) => {
           <Avatar animated={true} />
 
           <View style={styles.messageContainer}>
-            <Text style={styles.emoji}>{success ? '🎉' : '💙'}</Text>
+            <Text style={styles.emoji}>{success ? "🎉" : "💙"}</Text>
             <Text style={styles.title}>
-              {success ? 'Parabéns!' : 'Tudo bem!'}
+              {success ? "Parabéns!" : "Tudo bem!"}
             </Text>
             <Text style={styles.message}>
               {success
                 ? `Você conseguiu ${activityTitle.toLowerCase()}! Estou muito orgulhoso de você!`
-                : 'Sem problemas, amanhã tentamos de novo! O importante é que você está tentando. 😊'}
+                : "Sem problemas, amanhã tentamos de novo! O importante é que você está tentando. 😊"}
             </Text>
           </View>
 
@@ -158,19 +201,19 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   confettiContainer: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   confetti: {
-    position: 'absolute',
+    position: "absolute",
     width: 12,
     height: 12,
     borderRadius: 2,
@@ -179,17 +222,17 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 30,
     padding: 40,
-    alignItems: 'center',
-    width: '100%',
+    alignItems: "center",
+    width: "100%",
     maxWidth: 400,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 10,
   },
   messageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 30,
   },
   emoji: {
@@ -198,21 +241,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.text,
     marginBottom: 15,
   },
   message: {
     fontSize: 18,
     color: COLORS.textLight,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 26,
   },
   button: {
     paddingVertical: 18,
     paddingHorizontal: 40,
     borderRadius: 25,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -221,9 +264,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: COLORS.white,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
 export default FeedbackScreen;
-

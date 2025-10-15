@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Animated as RNAnimated, View } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
-import { COLORS } from '../utils/constants';
+import React, { useEffect, useRef } from "react";
+import { StyleSheet, Animated as RNAnimated, View } from "react-native";
+import Svg, { Path } from "react-native-svg";
+import { COLORS } from "../utils/constants";
 
 // Create animated Path component
 const AnimatedPath = RNAnimated.createAnimatedComponent(Path);
@@ -16,7 +16,7 @@ const PathLine = ({ fromPosition, toPosition, width, height }) => {
   // Cria uma curva suave entre os pontos (curva de Bézier)
   const midX = (x1 + x2) / 2;
   const midY = (y1 + y2) / 2;
-  
+
   // Pontos de controle para criar uma curva suave
   const controlX = midX + (x2 - x1) * 0.2;
   const controlY = midY;
@@ -75,14 +75,14 @@ const PathLine = ({ fromPosition, toPosition, width, height }) => {
       {/* Fallback progress bar: a straight animated View from (x1,y1) to (x2,y2) */}
       <RNAnimated.View
         style={{
-          position: 'absolute',
+          position: "absolute",
           left: x1,
           top: y1,
           width: straightDist,
           height: 8,
           transform: [
             { translateX: 0 },
-            { translateY: -4 }, // center vertically
+            { translateY: -4 }, // centro vertical
             { rotate: `${Math.atan2(dy, dx)}rad` },
             { translateX: -straightDist / 2 },
             { scaleX: progress },
@@ -90,7 +90,10 @@ const PathLine = ({ fromPosition, toPosition, width, height }) => {
           ],
           backgroundColor: COLORS.path,
           borderRadius: 4,
-          opacity: progress.interpolate({ inputRange: [0, 1], outputRange: [0.0, 1.0] }),
+          opacity: progress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0.0, 1.0],
+          }),
         }}
       />
     </Svg>
@@ -99,7 +102,7 @@ const PathLine = ({ fromPosition, toPosition, width, height }) => {
 
 const styles = StyleSheet.create({
   svg: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
   },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -7,11 +7,11 @@ import {
   ScrollView,
   Animated,
   Alert,
-} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS, ACTIVITIES } from '../utils/constants';
-import CardTarefa from '../componentes/CardTarefa';
-import BotaoPersonalizado from '../componentes/BotaoPersonalizado';
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { COLORS, ACTIVITIES } from "../utils/constants";
+import CardTarefa from "../componentes/CardTarefa";
+import BotaoPersonalizado from "../componentes/BotaoPersonalizado";
 
 const TelaEscolherTarefas = ({ navigation }) => {
   const [tarefasSelecionadas, setTarefasSelecionadas] = useState([]);
@@ -38,36 +38,37 @@ const TelaEscolherTarefas = ({ navigation }) => {
 
   const handleContinuar = async () => {
     if (tarefasSelecionadas.length === 0) {
-      Alert.alert(
-        'Atenção',
-        'Selecione pelo menos uma tarefa para começar!',
-        [{ text: 'OK' }]
-      );
+      Alert.alert("Atenção", "Selecione pelo menos uma tarefa para começar!", [
+        { text: "OK" },
+      ]);
       return;
     }
 
     try {
       // Salvar tarefas selecionadas
       await AsyncStorage.setItem(
-        'tarefasSelecionadas',
+        "tarefasSelecionadas",
         JSON.stringify(tarefasSelecionadas)
       );
-      
+
       // Navegar para o caminho
-      navigation.navigate('Caminho');
+      navigation.navigate("Caminho");
     } catch (error) {
-      console.error('Erro ao salvar tarefas:', error);
+      console.error("Erro ao salvar tarefas:", error);
     }
   };
 
   const handleSalvarVoltar = async () => {
     try {
-      await AsyncStorage.setItem('tarefasSelecionadas', JSON.stringify(tarefasSelecionadas));
-  console.log('TelaEscolherTarefas: selecao salva', tarefasSelecionadas);
-  // Voltar para a tela anterior
-  navigation.goBack();
+      await AsyncStorage.setItem(
+        "tarefasSelecionadas",
+        JSON.stringify(tarefasSelecionadas)
+      );
+      console.log("TelaEscolherTarefas: selecao salva", tarefasSelecionadas);
+      // Voltar para a tela anterior
+      navigation.goBack();
     } catch (error) {
-      console.error('Erro ao salvar selecao e voltar:', error);
+      console.error("Erro ao salvar selecao e voltar:", error);
     }
   };
 
@@ -165,21 +166,21 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: COLORS.white,
     borderBottomWidth: 2,
     borderBottomColor: COLORS.neutral,
   },
   titulo: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.primary,
     marginBottom: 5,
   },
   subtitulo: {
     fontSize: 16,
     color: COLORS.textLight,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 10,
   },
   contadorContainer: {
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
   },
   contador: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.primary,
   },
   scrollView: {
@@ -207,11 +208,10 @@ const styles = StyleSheet.create({
     borderTopColor: COLORS.neutral,
   },
   botoesRapidos: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 10,
     marginBottom: 10,
   },
 });
 
 export default TelaEscolherTarefas;
-

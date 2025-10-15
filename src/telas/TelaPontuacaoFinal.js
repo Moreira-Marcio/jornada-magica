@@ -200,6 +200,13 @@ const TelaPontuacaoFinal = ({ route, navigation }) => {
               </Text>
             </View>
 
+            {/* Mensagem final personalizada do usuário */}
+            <View style={styles.finalMessageContainer}>
+              <Text style={styles.finalMessage}>
+                🎊 Parabens conseguimos finalizaer o dia foi muito bom, e amanha sera melhor ainda!!
+              </Text>
+            </View>
+
             {/* Botões */}
             <View style={styles.botoesContainer}>
               <TouchableOpacity
@@ -330,6 +337,20 @@ const styles = StyleSheet.create({
   botoesContainer: {
     width: '100%',
     gap: 10,
+  },
+  finalMessageContainer: {
+    marginTop: 20,
+    backgroundColor: COLORS.primary,
+    borderRadius: 16,
+    padding: 12,
+    width: '100%',
+    alignItems: 'center',
+  },
+  finalMessage: {
+    color: COLORS.white,
+    fontSize: 16,
+    fontWeight: '700',
+    textAlign: 'center',
   },
   botao: {
     paddingVertical: 18,

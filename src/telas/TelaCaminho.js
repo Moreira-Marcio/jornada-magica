@@ -77,10 +77,20 @@ const TelaCaminho = ({ navigation }) => {
 
         // Verifica se é a última tarefa
         if (tarefaAtual === tarefasSelecionadas.length - 1) {
-          navigation.navigate('PontuacaoFinal', {
-            pontosTotais: pontosTotais + (conseguiu ? 10 : 0),
-            tarefasCompletadas: tarefasCompletadas.length + (conseguiu ? 1 : 0),
-            totalTarefas: tarefasSelecionadas.length,
+          // Finaliza jornada: substitui a pilha de navegação pela tela de pontuação final
+          navigation.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'PontuacaoFinal',
+                params: {
+                  pontosTotais: pontosTotais + (conseguiu ? 10 : 0),
+                  tarefasCompletadas:
+                    tarefasCompletadas.length + (conseguiu ? 1 : 0),
+                  totalTarefas: tarefasSelecionadas.length,
+                },
+              },
+            ],
           });
         } else {
           setTarefaAtual(tarefaAtual + 1);
