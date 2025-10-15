@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { COLORS } from "../utils/constants";
-import Avatar from "../components/Avatar";
+import Avatar from "../componentes/Avatar";
 import InputPersonalizado from "../componentes/InputPersonalizado";
 import BotaoPersonalizado from "../componentes/BotaoPersonalizado";
 import { SafeAreaView } from "react-native-safe-area-context";

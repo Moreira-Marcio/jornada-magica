@@ -8,6 +8,9 @@ import TelaLogin from "./src/telas/TelaLogin.js";
 import TelaCadastro from "./src/telas/TelaCadastro.js";
 import TelaEscolherAvatar from "./src/telas/TelaEscolherAvatar.js";
 import TelaEscolherTarefas from "./src/telas/TelaEscolherTarefas.js";
+import TelaCaminho from "./src/telas/TelaCaminho.js";
+import TelaRespostaTarefa from "./src/telas/TelaRespostaTarefa.js";
+import TelaPontuacaoFinal from "./src/telas/TelaPontuacaoFinal.js";
 
 // Telas existentes
 import MapScreen from "./src/screens/MapScreen";
@@ -49,6 +52,9 @@ export default function App() {
         <Stack.Screen name="Cadastro" component={TelaCadastro} />
         <Stack.Screen name="EscolherAvatar" component={TelaEscolherAvatar} />
         <Stack.Screen name="EscolherTarefas" component={TelaEscolherTarefas} />
+  <Stack.Screen name="Caminho" component={TelaCaminho} />
+  <Stack.Screen name="RespostaTarefa" component={TelaRespostaTarefa} />
+  <Stack.Screen name="PontuacaoFinal" component={TelaPontuacaoFinal} />
 
         {/* Fluxo Principal do App */}
         <Stack.Screen name="Map" component={MapScreen} />

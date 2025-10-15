@@ -15,7 +15,8 @@ import BotaoPersonalizado from '../componentes/BotaoPersonalizado';
 
 const TelaEscolherTarefas = ({ navigation }) => {
   const [tarefasSelecionadas, setTarefasSelecionadas] = useState([]);
-  const fadeAnim = new Animated.Value(0);
+  const fadeAnimRef = React.useRef(new Animated.Value(0));
+  const fadeAnim = fadeAnimRef.current;
 
   React.useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -23,7 +24,7 @@ const TelaEscolherTarefas = ({ navigation }) => {
       duration: 400,
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [fadeAnim]);
 
   const toggleTarefa = (tarefaId) => {
     setTarefasSelecionadas((prev) => {
@@ -56,6 +57,17 @@ const TelaEscolherTarefas = ({ navigation }) => {
       navigation.navigate('Caminho');
     } catch (error) {
       console.error('Erro ao salvar tarefas:', error);
+    }
+  };
+
+  const handleSalvarVoltar = async () => {
+    try {
+      await AsyncStorage.setItem('tarefasSelecionadas', JSON.stringify(tarefasSelecionadas));
+  console.log('TelaEscolherTarefas: selecao salva', tarefasSelecionadas);
+  // Voltar para a tela anterior
+  navigation.goBack();
+    } catch (error) {
+      console.error('Erro ao salvar selecao e voltar:', error);
     }
   };
 
@@ -129,6 +141,13 @@ const TelaEscolherTarefas = ({ navigation }) => {
             aoClicar={handleContinuar}
             tipo="sucesso"
             desabilitado={tarefasSelecionadas.length === 0}
+          />
+          <BotaoPersonalizado
+            texto="Salvar e Voltar"
+            icone="↩"
+            aoClicar={handleSalvarVoltar}
+            tipo="secundario"
+            desabilitado={false}
           />
         </View>
       </Animated.View>

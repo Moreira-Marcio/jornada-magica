@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { COLORS } from '../utils/constants';
-import Avatar from '../components/Avatar';
+import Avatar from '../componentes/Avatar';
 import ComponentePontos from '../componentes/ComponentePontos';
 
 const TelaPontuacaoFinal = ({ route, navigation }) => {

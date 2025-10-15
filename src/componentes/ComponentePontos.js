@@ -3,7 +3,8 @@ import { StyleSheet, View, Text, Animated } from 'react-native';
 import { COLORS } from '../utils/constants';
 
 const ComponentePontos = ({ pontos, animado = false }) => {
-  const scaleAnim = new Animated.Value(1);
+  const scaleAnimRef = React.useRef(new Animated.Value(1));
+  const scaleAnim = scaleAnimRef.current;
 
   React.useEffect(() => {
     if (animado) {
@@ -20,7 +21,7 @@ const ComponentePontos = ({ pontos, animado = false }) => {
         }),
       ]).start();
     }
-  }, [pontos]);
+  }, [pontos, scaleAnim]);
 
   return (
     <Animated.View

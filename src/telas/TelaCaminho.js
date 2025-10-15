@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS, ACTIVITIES } from '../utils/constants';
-import Avatar from '../components/Avatar';
+import Avatar from '../componentes/Avatar';
 import ComponentePontos from '../componentes/ComponentePontos';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -22,7 +22,8 @@ const TelaCaminho = ({ navigation }) => {
   const [tarefasCompletadas, setTarefasCompletadas] = useState([]);
   const [pontosTotais, setPontosTotais] = useState(0);
   const [tarefasSelecionadas, setTarefasSelecionadas] = useState([]);
-  const avatarPosition = new Animated.ValueXY({ x: 0, y: 0 });
+  const avatarPositionRef = React.useRef(new Animated.ValueXY({ x: 0, y: 0 }));
+  const avatarPosition = avatarPositionRef.current;
 
   useEffect(() => {
     carregarTarefas();

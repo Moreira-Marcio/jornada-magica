@@ -7,12 +7,13 @@ import {
   ScrollView,
   SafeAreaView,
   Animated,
+  TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS, ACTIVITIES } from '../utils/constants';
-import ActivityNode from '../components/ActivityNode';
-import PathLine from '../components/PathLine';
-import Avatar from '../components/Avatar';
+import ActivityNode from '../componentes/ActivityNode';
+import PathLine from '../componentes/PathLine';
+import Avatar from '../componentes/Avatar';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const MAP_HEIGHT = SCREEN_HEIGHT * 1.2;
@@ -20,7 +21,10 @@ const MAP_HEIGHT = SCREEN_HEIGHT * 1.2;
 const MapScreen = ({ navigation }) => {
   const [completedActivities, setCompletedActivities] = useState([]);
   const [currentActivityId, setCurrentActivityId] = useState(1);
-  const avatarPosition = new Animated.ValueXY({ x: 0, y: 0 });
+  const avatarPositionRef = React.useRef(new Animated.ValueXY({ x: 0, y: 0 }));
+  const avatarPosition = avatarPositionRef.current;
+  const avatarScaleRef = React.useRef(new Animated.Value(1));
+  const avatarScale = avatarScaleRef.current;
 
   useEffect(() => {
     loadProgress();
@@ -39,6 +43,11 @@ const MapScreen = ({ navigation }) => {
         tension: 50,
         friction: 7,
       }).start();
+        // pequeno pulse ao chegar
+        Animated.sequence([
+          Animated.timing(avatarScale, { toValue: 1.15, duration: 200, useNativeDriver: true }),
+          Animated.timing(avatarScale, { toValue: 1.0, duration: 200, useNativeDriver: true }),
+        ]).start();
     }
   }, [currentActivityId]);
 
@@ -49,6 +58,7 @@ const MapScreen = ({ navigation }) => {
         const completed = JSON.parse(saved);
         setCompletedActivities(completed);
         setCurrentActivityId(completed.length + 1);
+        console.log('MapScreen: progresso carregado', completed);
       }
     } catch (error) {
       console.error('Erro ao carregar progresso:', error);
@@ -77,14 +87,27 @@ const MapScreen = ({ navigation }) => {
       
       try {
         await AsyncStorage.setItem('completedActivities', JSON.stringify(updated));
+        console.log('MapScreen: progresso salvo', updated);
       } catch (error) {
         console.error('Erro ao salvar progresso:', error);
       }
     }
   };
 
-  const handleActivitySkip = () => {
-    // Não avança, mas volta ao mapa
+  const handleActivitySkip = async (activityId) => {
+    // Avança como se a tarefa tivesse sido feita (sem adicionar pontos)
+    if (!completedActivities.includes(activityId)) {
+      const updated = [...completedActivities, activityId];
+      setCompletedActivities(updated);
+      setCurrentActivityId(activityId + 1);
+
+      try {
+        await AsyncStorage.setItem('completedActivities', JSON.stringify(updated));
+        console.log('MapScreen: progresso salvo (skip)', updated);
+      } catch (error) {
+        console.error('Erro ao salvar progresso (skip):', error);
+      }
+    }
   };
 
   return (
@@ -94,6 +117,11 @@ const MapScreen = ({ navigation }) => {
         <Text style={styles.subtitle}>
           {completedActivities.length} de {ACTIVITIES.length} atividades
         </Text>
+        <View style={styles.headerButtons}>
+          <TouchableOpacity onPress={() => navigation.navigate('EscolherTarefas')} style={styles.headerIconBtn}>
+            <Text style={styles.headerIcon}>📝</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
@@ -213,6 +241,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 60,
     height: 60,
+  },
+  headerButtons: {
+    position: 'absolute',
+    right: 12,
+    top: 16,
+  },
+  headerIconBtn: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 10,
+  },
+  headerIcon: {
+    fontSize: 18,
+    color: COLORS.white,
   },
 });
 

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { COLORS } from "../utils/constants";
-import Avatar from "../components/Avatar";
+import Avatar from "../componentes/Avatar";
 import InputPersonalizado from "../componentes/InputPersonalizado";
 import BotaoPersonalizado from "../componentes/BotaoPersonalizado";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,7 +17,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const TelaLogin = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const scaleAnim = new Animated.Value(0);
+  const scaleAnimRef = React.useRef(new Animated.Value(0));
+  const scaleAnim = scaleAnimRef.current;
 
   React.useEffect(() => {
     Animated.spring(scaleAnim, {
@@ -26,7 +27,7 @@ const TelaLogin = ({ navigation }) => {
       friction: 7,
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [scaleAnim]);
 
   const handleLogin = () => {
     if (email && senha) {

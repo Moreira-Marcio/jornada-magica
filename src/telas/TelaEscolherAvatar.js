@@ -52,7 +52,8 @@ const AVATARES_DISPONIVEIS = [
 
 const TelaEscolherAvatar = ({ navigation }) => {
   const [avatarSelecionado, setAvatarSelecionado] = useState(null);
-  const fadeAnim = new Animated.Value(0);
+  const fadeAnimRef = React.useRef(new Animated.Value(0));
+  const fadeAnim = fadeAnimRef.current;
 
   React.useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -60,7 +61,7 @@ const TelaEscolherAvatar = ({ navigation }) => {
       duration: 400,
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [fadeAnim]);
 
   const handleContinuar = () => {
     if (avatarSelecionado) {

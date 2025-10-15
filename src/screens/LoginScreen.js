@@ -11,7 +11,7 @@ import {
   Animated,
 } from 'react-native';
 import { COLORS } from '../utils/constants';
-import Avatar from '../components/Avatar';
+import Avatar from '../componentes/Avatar';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');

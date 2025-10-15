@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Animated,
-} from 'react-native';
-import { COLORS } from '../utils/constants';
-import Avatar from '../components/Avatar';
+} from "react-native";
+import { COLORS } from "../utils/constants";
+import Avatar from "../componentes/Avatar";
 
 const ActivityScreen = ({ route, navigation }) => {
   const { activity, isCompleted, onComplete, onSkip } = route.params;
-  const scaleAnim = new Animated.Value(0);
+  const scaleAnimRef = React.useRef(new Animated.Value(0));
+  const scaleAnim = scaleAnimRef.current;
 
   React.useEffect(() => {
     Animated.spring(scaleAnim, {
@@ -21,19 +22,19 @@ const ActivityScreen = ({ route, navigation }) => {
       friction: 7,
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [scaleAnim]);
 
   const handleComplete = () => {
     onComplete(activity.id);
-    navigation.navigate('Feedback', {
+    navigation.navigate("Feedback", {
       success: true,
       activityTitle: activity.title,
     });
   };
 
   const handleSkip = () => {
-    onSkip();
-    navigation.navigate('Feedback', {
+    onSkip(activity.id);
+    navigation.navigate("Feedback", {
       success: false,
       activityTitle: activity.title,
     });
@@ -107,21 +108,21 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   card: {
     backgroundColor: COLORS.white,
     borderRadius: 30,
     padding: 30,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
     shadowRadius: 10,
     elevation: 8,
   },
   avatarSection: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   speechBubble: {
@@ -129,16 +130,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 15,
     marginTop: 15,
-    maxWidth: '80%',
+    maxWidth: "80%",
   },
   speechText: {
     color: COLORS.white,
     fontSize: 16,
-    textAlign: 'center',
-    fontWeight: '600',
+    textAlign: "center",
+    fontWeight: "600",
   },
   activityInfo: {
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 20,
   },
   icon: {
@@ -147,15 +148,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.text,
     marginBottom: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
   description: {
     fontSize: 18,
     color: COLORS.textLight,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 24,
   },
   completedBadge: {
@@ -168,17 +169,17 @@ const styles = StyleSheet.create({
   completedText: {
     color: COLORS.white,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   buttonsContainer: {
-    width: '100%',
+    width: "100%",
     gap: 15,
   },
   button: {
     paddingVertical: 18,
     borderRadius: 25,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -193,19 +194,18 @@ const styles = StyleSheet.create({
   buttonText: {
     color: COLORS.white,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   backButton: {
     marginTop: 20,
-    alignItems: 'center',
+    alignItems: "center",
     padding: 15,
   },
   backButtonText: {
     color: COLORS.primary,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
 
 export default ActivityScreen;
-
