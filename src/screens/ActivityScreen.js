@@ -4,11 +4,11 @@ import {
   View,
   Text,
   TouchableOpacity,
-  SafeAreaView,
   Animated,
 } from "react-native";
 import { COLORS } from "../utils/constants";
 import Avatar from "../componentes/Avatar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ActivityScreen = ({ route, navigation }) => {
   const { activity, isCompleted, onComplete, onSkip } = route.params;

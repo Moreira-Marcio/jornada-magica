@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
   Text,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   Animated,
   Dimensions,
-} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS, ACTIVITIES } from '../utils/constants';
-import Avatar from '../componentes/Avatar';
-import ComponentePontos from '../componentes/ComponentePontos';
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { COLORS, ACTIVITIES } from "../utils/constants";
+import Avatar from "../componentes/Avatar";
+import ComponentePontos from "../componentes/ComponentePontos";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const MAP_HEIGHT = SCREEN_HEIGHT * 1.5;
 
 const TelaCaminho = ({ navigation }) => {
@@ -31,7 +31,10 @@ const TelaCaminho = ({ navigation }) => {
 
   useEffect(() => {
     // Anima o avatar para a posição da tarefa atual
-    if (tarefasSelecionadas.length > 0 && tarefaAtual < tarefasSelecionadas.length) {
+    if (
+      tarefasSelecionadas.length > 0 &&
+      tarefaAtual < tarefasSelecionadas.length
+    ) {
       const tarefa = tarefasSelecionadas[tarefaAtual];
       Animated.spring(avatarPosition, {
         toValue: {
@@ -47,7 +50,7 @@ const TelaCaminho = ({ navigation }) => {
 
   const carregarTarefas = async () => {
     try {
-      const saved = await AsyncStorage.getItem('tarefasSelecionadas');
+      const saved = await AsyncStorage.getItem("tarefasSelecionadas");
       if (saved) {
         const ids = JSON.parse(saved);
         const tarefas = ACTIVITIES.filter((t) => ids.includes(t.id));
@@ -57,15 +60,15 @@ const TelaCaminho = ({ navigation }) => {
         setTarefasSelecionadas(ACTIVITIES);
       }
     } catch (error) {
-      console.error('Erro ao carregar tarefas:', error);
+      console.error("Erro ao carregar tarefas:", error);
       setTarefasSelecionadas(ACTIVITIES);
     }
   };
 
   const handleResposta = (conseguiu) => {
     const tarefa = tarefasSelecionadas[tarefaAtual];
-    
-    navigation.navigate('RespostaTarefa', {
+
+    navigation.navigate("RespostaTarefa", {
       tarefa,
       conseguiu,
       pontos: conseguiu ? 10 : 0,
@@ -82,7 +85,7 @@ const TelaCaminho = ({ navigation }) => {
             index: 0,
             routes: [
               {
-                name: 'PontuacaoFinal',
+                name: "PontuacaoFinal",
                 params: {
                   pontosTotais: pontosTotais + (conseguiu ? 10 : 0),
                   tarefasCompletadas:
@@ -143,7 +146,8 @@ const TelaCaminho = ({ navigation }) => {
                       top: tarefa.position.y * MAP_HEIGHT,
                       left: tarefa.position.x * SCREEN_WIDTH,
                       height:
-                        (nextTarefa.position.y - tarefa.position.y) * MAP_HEIGHT,
+                        (nextTarefa.position.y - tarefa.position.y) *
+                        MAP_HEIGHT,
                     },
                   ]}
                 />
@@ -245,17 +249,17 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   loadingText: {
     fontSize: 18,
     color: COLORS.textLight,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 15,
     backgroundColor: COLORS.white,
     borderBottomWidth: 2,
@@ -269,7 +273,7 @@ const styles = StyleSheet.create({
   },
   progressoTexto: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: COLORS.text,
   },
   scrollView: {
@@ -280,17 +284,17 @@ const styles = StyleSheet.create({
   },
   map: {
     width: SCREEN_WIDTH,
-    position: 'relative',
+    position: "relative",
   },
   linha: {
-    position: 'absolute',
+    position: "absolute",
     width: 6,
     backgroundColor: COLORS.path,
     borderRadius: 3,
   },
   nodeContainer: {
-    position: 'absolute',
-    alignItems: 'center',
+    position: "absolute",
+    alignItems: "center",
   },
   node: {
     width: 70,
@@ -299,9 +303,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderWidth: 4,
     borderColor: COLORS.neutral,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
@@ -309,7 +313,7 @@ const styles = StyleSheet.create({
   },
   nodeCompletada: {
     backgroundColor: COLORS.success,
-    borderColor: '#5FA77F',
+    borderColor: "#5FA77F",
   },
   nodeAtual: {
     borderColor: COLORS.primary,
@@ -328,30 +332,30 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 12,
     color: COLORS.text,
-    textAlign: 'center',
-    fontWeight: '600',
+    textAlign: "center",
+    fontWeight: "600",
     maxWidth: 100,
   },
   checkmark: {
-    position: 'absolute',
+    position: "absolute",
     top: -5,
     right: -5,
     width: 24,
     height: 24,
     borderRadius: 12,
     backgroundColor: COLORS.success,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 2,
     borderColor: COLORS.white,
   },
   checkmarkText: {
     color: COLORS.white,
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   avatarContainer: {
-    position: 'absolute',
+    position: "absolute",
     width: 60,
     height: 60,
   },
@@ -360,15 +364,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.15,
     shadowRadius: 10,
     elevation: 10,
   },
   tarefaHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 20,
   },
   tarefaIcon: {
@@ -380,7 +384,7 @@ const styles = StyleSheet.create({
   },
   tarefaTitulo: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.text,
     marginBottom: 5,
   },
@@ -389,15 +393,15 @@ const styles = StyleSheet.create({
     color: COLORS.textLight,
   },
   botoesContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 10,
   },
   botao: {
     flex: 1,
     paddingVertical: 18,
     borderRadius: 25,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -412,9 +416,8 @@ const styles = StyleSheet.create({
   botaoTexto: {
     color: COLORS.white,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
 export default TelaCaminho;
-

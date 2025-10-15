@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
   Text,
   Dimensions,
   ScrollView,
-  SafeAreaView,
   Animated,
   TouchableOpacity,
-} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS, ACTIVITIES } from '../utils/constants';
-import ActivityNode from '../componentes/ActivityNode';
-import PathLine from '../componentes/PathLine';
-import Avatar from '../componentes/Avatar';
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { COLORS, ACTIVITIES } from "../utils/constants";
+import ActivityNode from "../componentes/ActivityNode";
+import PathLine from "../componentes/PathLine";
+import Avatar from "../componentes/Avatar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const MAP_HEIGHT = SCREEN_HEIGHT * 1.2;
 
 const MapScreen = ({ navigation }) => {
@@ -32,7 +32,7 @@ const MapScreen = ({ navigation }) => {
 
   useEffect(() => {
     // Anima o avatar para a posição da atividade atual
-    const currentActivity = ACTIVITIES.find(a => a.id === currentActivityId);
+    const currentActivity = ACTIVITIES.find((a) => a.id === currentActivityId);
     if (currentActivity) {
       Animated.spring(avatarPosition, {
         toValue: {
@@ -43,34 +43,42 @@ const MapScreen = ({ navigation }) => {
         tension: 50,
         friction: 7,
       }).start();
-        // pequeno pulse ao chegar
-        Animated.sequence([
-          Animated.timing(avatarScale, { toValue: 1.15, duration: 200, useNativeDriver: true }),
-          Animated.timing(avatarScale, { toValue: 1.0, duration: 200, useNativeDriver: true }),
-        ]).start();
+      // pequeno pulse ao chegar
+      Animated.sequence([
+        Animated.timing(avatarScale, {
+          toValue: 1.15,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(avatarScale, {
+          toValue: 1.0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
     }
   }, [currentActivityId]);
 
   const loadProgress = async () => {
     try {
-      const saved = await AsyncStorage.getItem('completedActivities');
+      const saved = await AsyncStorage.getItem("completedActivities");
       if (saved) {
         const completed = JSON.parse(saved);
         setCompletedActivities(completed);
         setCurrentActivityId(completed.length + 1);
-        console.log('MapScreen: progresso carregado', completed);
+        console.log("MapScreen: progresso carregado", completed);
       }
     } catch (error) {
-      console.error('Erro ao carregar progresso:', error);
+      console.error("Erro ao carregar progresso:", error);
     }
   };
 
   const handleActivityPress = (activity) => {
     const isCompleted = completedActivities.includes(activity.id);
     const isLocked = activity.id > currentActivityId;
-    
+
     if (!isLocked) {
-      navigation.navigate('Activity', {
+      navigation.navigate("Activity", {
         activity,
         isCompleted,
         onComplete: handleActivityComplete,
@@ -84,12 +92,15 @@ const MapScreen = ({ navigation }) => {
       const updated = [...completedActivities, activityId];
       setCompletedActivities(updated);
       setCurrentActivityId(activityId + 1);
-      
+
       try {
-        await AsyncStorage.setItem('completedActivities', JSON.stringify(updated));
-        console.log('MapScreen: progresso salvo', updated);
+        await AsyncStorage.setItem(
+          "completedActivities",
+          JSON.stringify(updated)
+        );
+        console.log("MapScreen: progresso salvo", updated);
       } catch (error) {
-        console.error('Erro ao salvar progresso:', error);
+        console.error("Erro ao salvar progresso:", error);
       }
     }
   };
@@ -102,10 +113,13 @@ const MapScreen = ({ navigation }) => {
       setCurrentActivityId(activityId + 1);
 
       try {
-        await AsyncStorage.setItem('completedActivities', JSON.stringify(updated));
-        console.log('MapScreen: progresso salvo (skip)', updated);
+        await AsyncStorage.setItem(
+          "completedActivities",
+          JSON.stringify(updated)
+        );
+        console.log("MapScreen: progresso salvo (skip)", updated);
       } catch (error) {
-        console.error('Erro ao salvar progresso (skip):', error);
+        console.error("Erro ao salvar progresso (skip):", error);
       }
     }
   };
@@ -118,7 +132,10 @@ const MapScreen = ({ navigation }) => {
           {completedActivities.length} de {ACTIVITIES.length} atividades
         </Text>
         <View style={styles.headerButtons}>
-          <TouchableOpacity onPress={() => navigation.navigate('EscolherTarefas')} style={styles.headerIconBtn}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("EscolherTarefas")}
+            style={styles.headerIconBtn}
+          >
             <Text style={styles.headerIcon}>📝</Text>
           </TouchableOpacity>
         </View>
@@ -200,14 +217,14 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: COLORS.white,
     borderBottomWidth: 2,
     borderBottomColor: COLORS.neutral,
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.primary,
     marginBottom: 5,
   },
@@ -223,27 +240,27 @@ const styles = StyleSheet.create({
   },
   map: {
     width: SCREEN_WIDTH,
-    position: 'relative',
+    position: "relative",
   },
   nodeContainer: {
-    position: 'absolute',
-    alignItems: 'center',
+    position: "absolute",
+    alignItems: "center",
   },
   activityTitle: {
     marginTop: 8,
     fontSize: 12,
     color: COLORS.text,
-    textAlign: 'center',
-    fontWeight: '600',
+    textAlign: "center",
+    fontWeight: "600",
     maxWidth: 100,
   },
   avatarContainer: {
-    position: 'absolute',
+    position: "absolute",
     width: 60,
     height: 60,
   },
   headerButtons: {
-    position: 'absolute',
+    position: "absolute",
     right: 12,
     top: 16,
   },
@@ -260,4 +277,3 @@ const styles = StyleSheet.create({
 });
 
 export default MapScreen;
-
