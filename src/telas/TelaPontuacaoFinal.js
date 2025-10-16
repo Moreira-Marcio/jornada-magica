@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -7,14 +7,14 @@ import {
   Animated,
   TouchableOpacity,
   ScrollView,
-} from 'react-native';
-import { COLORS } from '../utils/constants';
-import Avatar from '../componentes/Avatar';
-import ComponentePontos from '../componentes/ComponentePontos';
+} from "react-native";
+import { COLORS } from "../utils/constants";
+import Avatar from "../componentes/Avatar";
+import ComponentePontos from "../componentes/ComponentePontos";
 
 const TelaPontuacaoFinal = ({ route, navigation }) => {
   const { pontosTotais, tarefasCompletadas, totalTarefas } = route.params;
-  
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const confettiAnims = useRef(
@@ -27,7 +27,14 @@ const TelaPontuacaoFinal = ({ route, navigation }) => {
   ).current;
 
   const percentual = Math.round((tarefasCompletadas / totalTarefas) * 100);
-  const medalha = percentual === 100 ? '🏆' : percentual >= 70 ? '🥇' : percentual >= 50 ? '🥈' : '🌟';
+  const medalha =
+    percentual === 100
+      ? "🏆"
+      : percentual >= 70
+      ? "🥇"
+      : percentual >= 50
+      ? "🥈"
+      : "🌟";
 
   useEffect(() => {
     // Animação de entrada
@@ -76,22 +83,22 @@ const TelaPontuacaoFinal = ({ route, navigation }) => {
   }, []);
 
   const handleVoltar = () => {
-    navigation.navigate('EscolherTarefas');
+    navigation.navigate("EscolherTarefas");
   };
 
   const handleRecomecar = () => {
-    navigation.navigate('Caminho');
+    navigation.navigate("Caminho");
   };
 
   const getMensagem = () => {
     if (percentual === 100) {
-      return 'Incrível! Você completou todas as tarefas!';
+      return "Incrível! Você completou todas as tarefas!";
     } else if (percentual >= 70) {
-      return 'Muito bem! Você fez um ótimo trabalho!';
+      return "Muito bem! Você fez um ótimo trabalho!";
     } else if (percentual >= 50) {
-      return 'Bom trabalho! Continue assim!';
+      return "Bom trabalho! Continue assim!";
     } else {
-      return 'Você tentou e isso é o mais importante!';
+      return "Você tentou e isso é o mais importante!";
     }
   };
 
@@ -114,12 +121,12 @@ const TelaPontuacaoFinal = ({ route, navigation }) => {
                 styles.confetti,
                 {
                   backgroundColor: [
-                    '#FFD166',
-                    '#7EC699',
-                    '#6B9BD1',
-                    '#A8D5BA',
-                    '#F9C5D5',
-                    '#FFB347',
+                    "#FFD166",
+                    "#7EC699",
+                    "#6B9BD1",
+                    "#A8D5BA",
+                    "#F9C5D5",
+                    "#FFB347",
                   ][index % 6],
                   transform: [
                     { translateX: anim.translateX },
@@ -127,7 +134,7 @@ const TelaPontuacaoFinal = ({ route, navigation }) => {
                     {
                       rotate: anim.rotate.interpolate({
                         inputRange: [0, 720],
-                        outputRange: ['0deg', '720deg'],
+                        outputRange: ["0deg", "720deg"],
                       }),
                     },
                   ],
@@ -195,15 +202,16 @@ const TelaPontuacaoFinal = ({ route, navigation }) => {
             <View style={styles.encorajamentoContainer}>
               <Text style={styles.encorajamento}>
                 {tarefasCompletadas === totalTarefas
-                  ? '🎉 Você é incrível! Continue assim!'
-                  : '💪 Amanhã você pode tentar de novo!'}
+                  ? "🎉 Você é incrível! Continue assim!"
+                  : "💪 Amanhã você pode tentar de novo!"}
               </Text>
             </View>
 
             {/* Mensagem final personalizada do usuário */}
             <View style={styles.finalMessageContainer}>
               <Text style={styles.finalMessage}>
-                🎊 Parabens conseguimos finalizaer o dia foi muito bom, e amanha sera melhor ainda!!
+                🎊 Parabens conseguimos finalizaer o dia foi muito bom, e amanha
+                sera melhor ainda!!
               </Text>
             </View>
 
@@ -241,30 +249,30 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   confettiContainer: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
     zIndex: 1,
   },
   confetti: {
-    position: 'absolute',
+    position: "absolute",
     width: 16,
     height: 16,
     borderRadius: 4,
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 20,
   },
   card: {
     backgroundColor: COLORS.white,
     borderRadius: 30,
     padding: 30,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 10,
@@ -280,15 +288,15 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.text,
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
   mensagem: {
     fontSize: 18,
     color: COLORS.textLight,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 30,
     lineHeight: 26,
   },
@@ -296,20 +304,20 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   estatisticas: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: COLORS.background,
     borderRadius: 20,
     padding: 20,
-    width: '100%',
-    justifyContent: 'space-around',
+    width: "100%",
+    justifyContent: "space-around",
     marginBottom: 20,
   },
   estatItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   estatValor: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.primary,
     marginBottom: 5,
   },
@@ -326,16 +334,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 15,
     marginBottom: 30,
-    width: '100%',
+    width: "100%",
   },
   encorajamento: {
     fontSize: 16,
     color: COLORS.white,
-    textAlign: 'center',
-    fontWeight: '600',
+    textAlign: "center",
+    fontWeight: "600",
   },
   botoesContainer: {
-    width: '100%',
+    width: "100%",
     gap: 10,
   },
   finalMessageContainer: {
@@ -343,20 +351,20 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     borderRadius: 16,
     padding: 12,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
   finalMessage: {
     color: COLORS.white,
     fontSize: 16,
-    fontWeight: '700',
-    textAlign: 'center',
+    fontWeight: "700",
+    textAlign: "center",
   },
   botao: {
     paddingVertical: 18,
     borderRadius: 25,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -371,9 +379,8 @@ const styles = StyleSheet.create({
   botaoTexto: {
     color: COLORS.white,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
 export default TelaPontuacaoFinal;
-
