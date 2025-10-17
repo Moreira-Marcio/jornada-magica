@@ -20,7 +20,7 @@ const TelaCadastro = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
-  const scaleAnim = new Animated.Value(0);
+  const scaleAnim = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
     Animated.spring(scaleAnim, {
