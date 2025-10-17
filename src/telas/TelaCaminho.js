@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Animated,
   Dimensions,
+  ImageBackground,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { COLORS, ACTIVITIES } from "../utils/constants";
@@ -132,7 +133,14 @@ const TelaCaminho = ({ navigation }) => {
         contentContainerStyle={styles.mapContainer}
         showsVerticalScrollIndicator={false}
       >
-        <View style={[styles.map, { height: MAP_HEIGHT }]}>
+        <ImageBackground
+          source={require("../../assets/caminho.png")}
+          style={[styles.map, { height: MAP_HEIGHT }]}
+          imageStyle={styles.mapImage}
+          resizeMode="cover"
+        >
+          {/* overlay para melhorar contraste */}
+          <View style={styles.mapOverlay} pointerEvents="none" />
           {/* Desenha as linhas do caminho */}
           {tarefasSelecionadas.map((tarefa, index) => {
             if (index < tarefasSelecionadas.length - 1) {
@@ -205,7 +213,7 @@ const TelaCaminho = ({ navigation }) => {
           >
             <Avatar animated={true} />
           </Animated.View>
-        </View>
+        </ImageBackground>
       </ScrollView>
 
       {/* Card da Tarefa Atual */}
@@ -285,6 +293,14 @@ const styles = StyleSheet.create({
   map: {
     width: SCREEN_WIDTH,
     position: "relative",
+  },
+  mapImage: {
+    opacity: 0.85,
+  },
+  mapOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.35)",
+    zIndex: 0,
   },
   linha: {
     position: "absolute",
