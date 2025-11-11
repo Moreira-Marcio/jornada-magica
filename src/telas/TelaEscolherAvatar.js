@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,47 +6,47 @@ import {
   SafeAreaView,
   ScrollView,
   Animated,
-} from 'react-native';
-import { COLORS } from '../utils/constants';
-import OpcaoAvatar from '../componentes/OpcaoAvatar';
-import BotaoPersonalizado from '../componentes/BotaoPersonalizado';
+} from "react-native";
+import { COLORS } from "../utils/constants";
+import OpcaoAvatar from "../componentes/OpcaoAvatar";
+import BotaoPersonalizado from "../componentes/BotaoPersonalizado";
 
 const AVATARES_DISPONIVEIS = [
   {
     id: 1,
-    nome: 'Ana',
-    corPele: '#FFD8A8',
-    corRoupa: '#6B9BD1',
+    nome: "Ana",
+    corPele: "#FFD8A8",
+    corRoupa: "#6B9BD1",
   },
   {
     id: 2,
-    nome: 'Pedro',
-    corPele: '#F4C4A0',
-    corRoupa: '#7EC699',
+    nome: "Pedro",
+    corPele: "#F4C4A0",
+    corRoupa: "#7EC699",
   },
   {
     id: 3,
-    nome: 'Maria',
-    corPele: '#E8B87D',
-    corRoupa: '#FFB347',
+    nome: "Maria",
+    corPele: "#E8B87D",
+    corRoupa: "#FFB347",
   },
   {
     id: 4,
-    nome: 'João',
-    corPele: '#D4A574',
-    corRoupa: '#A8D5BA',
+    nome: "João",
+    corPele: "#D4A574",
+    corRoupa: "#A8D5BA",
   },
   {
     id: 5,
-    nome: 'Sofia',
-    corPele: '#FFE4C4',
-    corRoupa: '#F9C5D5',
+    nome: "Sofia",
+    corPele: "#FFE4C4",
+    corRoupa: "#F9C5D5",
   },
   {
     id: 6,
-    nome: 'Lucas',
-    corPele: '#C68642',
-    corRoupa: '#9B59B6',
+    nome: "Lucas",
+    corPele: "#C68642",
+    corRoupa: "#9B59B6",
   },
 ];
 
@@ -66,7 +66,7 @@ const TelaEscolherAvatar = ({ navigation }) => {
   const handleContinuar = () => {
     if (avatarSelecionado) {
       // Salvar avatar selecionado
-      navigation.navigate('EscolherTarefas');
+      navigation.navigate("EscolherTarefas");
     }
   };
 
@@ -110,11 +110,12 @@ const TelaEscolherAvatar = ({ navigation }) => {
           {avatarSelecionado && (
             <View style={styles.selecaoInfo}>
               <Text style={styles.selecaoTexto}>
-                Você escolheu: <Text style={styles.selecaoNome}>{avatarSelecionado.nome}</Text>
+                Você escolheu:{" "}
+                <Text style={styles.selecaoNome}>{avatarSelecionado.nome}</Text>
               </Text>
             </View>
           )}
-          
+
           <BotaoPersonalizado
             texto="Continuar"
             icone="→"
@@ -138,29 +139,29 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: COLORS.white,
     borderBottomWidth: 2,
     borderBottomColor: COLORS.neutral,
   },
   titulo: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.primary,
     marginBottom: 5,
   },
   subtitulo: {
     fontSize: 16,
     color: COLORS.textLight,
-    textAlign: 'center',
+    textAlign: "center",
   },
   scrollContent: {
     padding: 20,
   },
   avatarGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
     gap: 10,
   },
   footer: {
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 15,
     marginBottom: 15,
-    alignItems: 'center',
+    alignItems: "center",
   },
   selecaoTexto: {
     fontSize: 16,
@@ -182,10 +183,9 @@ const styles = StyleSheet.create({
   },
   selecaoNome: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: COLORS.primary,
   },
 });
 
 export default TelaEscolherAvatar;
-
